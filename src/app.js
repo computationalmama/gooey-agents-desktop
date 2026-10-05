@@ -41,25 +41,51 @@ function init() {
   for (const agent of state.agents) ensureFrame(agent.id);
   if (state.selectedId) selectAgent(state.selectedId);
   render();
+  $("check-update-btn").addEventListener("click", () => checkForUpdates(true));
   checkForUpdates();
   setInterval(checkForUpdates, UPDATE_CHECK_MS);
 }
 
 // Release builds fetch latest.json from GitHub Releases; the update is signature-checked
 // against the public key in tauri.conf.json before it installs.
-async function checkForUpdates() {
+async function checkForUpdates(manual = false) {
   const updater = window.__TAURI__?.updater;
-  if (!updater || pendingUpdate) return;
+  if (!updater) {
+    if (manual) showUpdateStatus("Updates only work in the installed app.");
+    return;
+  }
+  if (pendingUpdate) return;
+  const btn = $("check-update-btn");
+  if (manual) {
+    btn.disabled = true;
+    btn.textContent = "Checking...";
+  }
   try {
     pendingUpdate = await updater.check();
   } catch (err) {
     console.warn("Update check failed", err);
+    if (manual) showUpdateStatus("Couldn't check for updates. Check your connection and try again.");
+    return;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Check for updates";
+  }
+  if (!pendingUpdate) {
+    if (manual) showUpdateStatus("You're on the latest version.");
     return;
   }
-  if (!pendingUpdate) return;
   $("update-text").textContent = `Version ${pendingUpdate.version} is ready. Your agents and chats are kept.`;
+  $("update-btn").hidden = false;
   $("update-banner").hidden = false;
   $("update-btn").onclick = installUpdate;
+}
+
+function showUpdateStatus(text) {
+  $("update-text").textContent = text;
+  $("update-btn").hidden = true;
+  $("update-banner").hidden = false;
+  clearTimeout(showUpdateStatus.timer);
+  showUpdateStatus.timer = setTimeout(() => { $("update-banner").hidden = true; }, 5000);
 }
 
 async function installUpdate() {

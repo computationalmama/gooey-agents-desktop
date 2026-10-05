@@ -5,7 +5,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 KEY_FILE="${TAURI_KEY_FILE:-$HOME/.tauri/gooey-agents.key}"
-REPO_URL="https://github.com/GooeyAI/gooey-agents-desktop"
+REPO_URL="https://github.com/computationalmama/gooey-agents-desktop"
 NOTES="${1:-}"
 
 VERSION=$(node -p "require('./src-tauri/tauri.conf.json').version")

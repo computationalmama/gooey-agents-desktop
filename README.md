@@ -62,7 +62,7 @@ Installed apps check for a new version at launch and every 6 hours. When one is 
 the sidebar shows **Update and restart**. Agents and chat history are kept.
 
 - Updates come from `latest.json` on the newest *published* GitHub Release of
-  `GooeyAI/gooey-agents-desktop`. The repo must be public, because the app downloads
+  `computationalmama/gooey-agents-desktop`. The repo must be public, because the app downloads
   without logging in.
 - Every update is signed. The app only installs one whose signature matches the public
   key in `src-tauri/tauri.conf.json`.

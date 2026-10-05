@@ -1,6 +1,6 @@
 [package]
 name = "gooey-agents-desktop"
-version = "0.1.1"
+version = "0.1.2"
 description = "Desktop app for running several Gooey.AI agents side by side"
 authors = ["Gooey.AI"]
 edition = "2021"
