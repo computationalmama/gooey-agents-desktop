@@ -200,3 +200,34 @@ input[type="text"] {
   position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 60;
   background: var(--ink); color: var(--white); padding: 10px 16px; border-radius: var(--radius-xs); font-size: 13px; font-weight: 500;
 }
+
+/* Chat search */
+kbd { font: inherit; font-size: 12px; color: var(--ink-meta); margin-left: 6px; }
+.overlay-top { align-items: flex-start; padding-top: 12vh; }
+.dialog-wide { width: 640px; max-height: 70vh; gap: 12px; }
+.dialog-wide input {
+  height: 44px; padding: 0 14px; border: 1px solid var(--line); border-radius: var(--radius-xs);
+  font-size: 15px; background: var(--white); outline: 0;
+}
+.chat-results { list-style: none; margin: 0; padding: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
+.chat-results li.empty-note { padding: 12px; color: var(--ink-meta); font-size: 13px; }
+.chat-result {
+  display: flex; flex-direction: column; gap: 4px; width: 100%; text-align: left; padding: 10px 12px;
+  border: 0; border-radius: var(--radius-sm, 8px); background: transparent; cursor: pointer; font: inherit; color: var(--ink);
+}
+.chat-result:hover, .chat-result:focus-visible { background: var(--surface-50); }
+.chat-result .cr-title { font-weight: 600; font-size: 14px; }
+.chat-result .cr-meta { font-size: 12px; color: var(--ink-meta); }
+.chat-result .cr-snippet { font-size: 13px; color: var(--ink-muted); line-height: 140%; }
+.chat-result mark { background: rgba(255, 214, 10, 0.45); color: inherit; border-radius: 2px; }
+
+/* Backup row, pinning and reordering */
+.data-row { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; font-size: 12px; color: var(--ink-meta); }
+.dialog-actions { align-items: center; }
+.dialog-actions .spacer { flex: 1; }
+#backup-dir { word-break: break-all; }
+.link-btn { border: 0; background: none; padding: 0; font: inherit; font-size: 12px; color: var(--ink-meta); cursor: pointer; text-decoration: underline; }
+.link-btn:hover { color: var(--ink); }
+.agent-item .pin { width: 12px; height: 12px; flex: none; fill: none; stroke: var(--ink-meta); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.agent-item.dragging { opacity: 0.4; }
+.agent-item.drop-before { box-shadow: 0 -2px 0 0 var(--ink); }

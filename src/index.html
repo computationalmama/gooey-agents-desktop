@@ -25,7 +25,15 @@
           <span id="update-text"></span>
           <button id="update-btn" class="btn btn-primary btn-block" type="button">Update and restart</button>
         </div>
+        <button id="search-chats-btn" class="btn btn-outline btn-block" type="button">Search chats <kbd>⌘K</kbd></button>
         <button id="check-update-btn" class="btn btn-outline btn-block" type="button">Check for updates</button>
+        <div class="data-row">
+          <button id="backup-status" class="link-btn" type="button"></button>
+          <span>
+            <button id="backup-btn" class="link-btn" type="button">Back up now</button> ·
+            <button id="restore-btn" class="link-btn" type="button">Restore</button>
+          </span>
+        </div>
         <button id="add-btn" class="btn btn-outline btn-block" type="button">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
           Add agent
@@ -65,6 +73,7 @@
               <svg viewBox="0 0 24 24" aria-hidden="true" class="fill"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
             </button>
             <div id="more-menu" class="popover menu" hidden>
+              <button id="pin-btn" type="button">Pin to top</button>
               <button id="edit-btn" type="button">Edit agent</button>
               <button id="copy-id-btn" type="button">Copy integration ID</button>
               <button id="open-chat-btn" type="button">Open chat in browser</button>
@@ -139,6 +148,37 @@
         <button class="btn btn-primary btn-lg" type="submit">Add agent</button>
       </div>
     </form>
+  </div>
+
+  <div id="chat-search-dialog" class="overlay overlay-top" hidden>
+    <div class="dialog dialog-wide" role="dialog" aria-label="Search chats">
+      <input id="chat-search-input" type="search" placeholder="Search all chats, in every agent" aria-label="Search chats" autocomplete="off">
+      <ul id="chat-search-results" class="chat-results"></ul>
+    </div>
+  </div>
+
+  <div id="backup-dialog" class="overlay" hidden>
+    <div class="dialog" role="dialog" aria-labelledby="backup-title">
+      <div>
+        <h2 id="backup-title" class="serif">Keep your agents and chats safe</h2>
+        <p>Gooey Agents can save a backup of your agents and chats once a day and keep the last 7. If you reinstall or move to a new Mac, restore from the file.</p>
+      </div>
+      <div class="preview">
+        <div class="preview-text">
+          <strong>Backup folder</strong>
+          <span id="backup-dir"></span>
+        </div>
+        <button id="backup-change" class="btn btn-outline" type="button">Change</button>
+      </div>
+      <span class="hint">Tip: pick a folder in iCloud Drive, Dropbox or Google Drive and the backup also reaches your other computers.</span>
+      <span id="backup-error" class="field-error" hidden></span>
+      <div class="dialog-actions">
+        <button id="backup-restore" class="link-btn" type="button">Have a backup? Restore</button>
+        <span class="spacer"></span>
+        <button id="backup-off" class="btn btn-outline btn-lg" type="button">Not now</button>
+        <button id="backup-on" class="btn btn-primary btn-lg" type="button">Turn on</button>
+      </div>
+    </div>
   </div>
 
   <div id="edit-dialog" class="overlay" hidden>

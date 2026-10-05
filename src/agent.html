@@ -7,6 +7,12 @@
   <style>
     html, body { margin: 0; height: 100%; }
     #gooey-embed { height: 100%; }
+    .drop-overlay {
+      display: none; position: fixed; inset: 8px; z-index: 10; align-items: center; justify-content: center;
+      border: 2px dashed #0a1021; border-radius: 16px; background: rgba(255, 255, 255, 0.9);
+      font: 600 16px Inter, system-ui, sans-serif; color: #0a1021; pointer-events: none;
+    }
+    .drop-overlay.show { display: flex; }
   </style>
 </head>
 <body>

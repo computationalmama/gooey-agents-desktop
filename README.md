@@ -15,6 +15,17 @@ the current conversation.
    (`https://gooey.ai/chat/<name>-<ID>/`).
 3. In the app, click **Add agent** and paste it. The name and photo come from gooey.ai.
 
+## Features
+
+- **Search chats** (⌘K): full-text search across every saved chat in every agent.
+- **Share conversation**: the icon in each chat's top-right copies a `gooey.ai/chat/<agent>/share/<id>` link.
+- **Attach files**: drag and drop files onto a chat, or paste an image from the clipboard.
+- **Pin and reorder**: drag agents in the sidebar, or use ⋯ → Pin to top.
+- **Backups**: on first launch the app offers a daily backup (last 7 kept) to
+  `Documents/Gooey Agents Backups`, or any folder you pick. A folder in iCloud Drive, Dropbox
+  or Google Drive syncs to your other computers. **Back up now** saves a file anywhere, and
+  **Restore** merges a backup file into the app. Backups are plain JSON and include chat text.
+
 ## How it works
 
 - `src/index.html` + `src/app.js`: the app shell (sidebar, header, add dialog). The agent
