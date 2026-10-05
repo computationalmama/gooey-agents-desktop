@@ -97,3 +97,14 @@ the sidebar shows **Update and restart**. Agents and chat history are kept.
 Pushing a tag like `v0.1.0` runs `.github/workflows/release.yml`. It builds macOS
 (Apple Silicon and Intel) and Windows installers and attaches them to a draft GitHub
 Release.
+
+## To do
+
+- [ ] Fix the first-launch instructions in "Build" above. On recent macOS (Sequoia and later),
+  right-click → Open no longer gets past the unidentified-developer warning. The steps are:
+  open the app and click Done, then System Settings → Privacy & Security → Security →
+  "Gooey Agents" was blocked → Open Anyway. Or run
+  `xattr -dr com.apple.quarantine "/Applications/Gooey Agents.app"`. Ship the fix in the next release.
+- [ ] Untested in the real app as of v0.1.3: the first-run backup dialog, Restore, deleting
+  backups beyond the newest 7, drag-to-reorder and pin, drag-and-drop and paste attachments,
+  and opening a chat from a search result.
