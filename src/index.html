@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gooey Agents</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Domine:wght@400;700&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="titlebar" data-tauri-drag-region></div>
+      <div class="sidebar-top" data-tauri-drag-region>
+        <h1 class="serif">Your agents</h1>
+        <label class="search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="search" type="search" placeholder="Search agents" aria-label="Search agents" autocomplete="off">
+        </label>
+      </div>
+      <nav id="agent-list" class="agent-list" aria-label="Agents"></nav>
+      <div class="sidebar-bottom">
+        <div id="update-banner" class="update-banner" role="status" hidden>
+          <span id="update-text"></span>
+          <button id="update-btn" class="btn btn-primary btn-block" type="button">Update and restart</button>
+        </div>
+        <button id="add-btn" class="btn btn-outline btn-block" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+          Add agent
+        </button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header id="agent-header" class="agent-header" data-tauri-drag-region hidden>
+        <span id="h-avatar" class="avatar avatar-lg"></span>
+        <div class="h-title" data-tauri-drag-region>
+          <h2 id="h-name"></h2>
+          <div class="h-meta">
+            <span id="h-id" class="chip-mono"></span>
+            <span id="h-status"></span>
+          </div>
+        </div>
+        <div class="h-actions">
+          <button id="workflow-btn" class="btn btn-outline" type="button">
+            Open workflow
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>
+          </button>
+          <div class="split">
+            <button id="last-run-btn" class="btn btn-primary split-main" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2v4M16 2v4M9 9h6a3 3 0 0 1 3 3v3a6 6 0 0 1-12 0v-3a3 3 0 0 1 3-3zM3 13h3M18 13h3M4 20l2.5-2M20 20l-2.5-2"/></svg>
+              Open last run
+            </button>
+            <button id="runs-toggle" class="btn btn-primary split-caret" type="button" aria-label="Show runs in this conversation" aria-expanded="false">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </div>
+          <button id="reload-btn" class="btn btn-outline btn-icon" type="button" aria-label="Reload agent" title="Reload agent">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg>
+          </button>
+          <div class="menu-wrap">
+            <button id="more-btn" class="btn btn-outline btn-icon" type="button" aria-label="More options" aria-expanded="false">
+              <svg viewBox="0 0 24 24" aria-hidden="true" class="fill"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
+            </button>
+            <div id="more-menu" class="popover menu" hidden>
+              <button id="edit-btn" type="button">Edit agent</button>
+              <button id="copy-id-btn" type="button">Copy integration ID</button>
+              <button id="open-chat-btn" type="button">Open chat in browser</button>
+              <button id="remove-btn" type="button" class="danger">Remove agent</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div id="runs-popover" class="popover runs" role="dialog" aria-label="Runs in this conversation" hidden>
+        <div class="runs-head">
+          <strong>Runs in this conversation</strong>
+          <span>Each reply is one run. Open one on gooey.ai to inspect its inputs, outputs and errors.</span>
+        </div>
+        <ul id="runs-list"></ul>
+      </div>
+
+      <div id="frames" class="frames"></div>
+
+      <section id="empty" class="empty" hidden>
+        <div class="empty-inner">
+          <h1 class="serif">Which agent would you like to add first?</h1>
+          <p>Each agent you add gets its own tab here. Add as many as you use, and switch between them from the sidebar.</p>
+          <form id="empty-form" class="empty-form">
+            <label for="empty-input">Integration ID or chat link</label>
+            <div class="row">
+              <input id="empty-input" type="text" placeholder="e.g. OJw or gooey.ai/chat/my-agent-OJw/" autocomplete="off">
+              <button class="btn btn-primary btn-lg" type="submit">Add agent</button>
+            </div>
+            <span id="empty-error" class="field-error" hidden></span>
+          </form>
+          <ol class="steps">
+            <li><span>Step 1</span>Open your agent on gooey.ai and go to its Integrations tab</li>
+            <li><span>Step 2</span>Copy the Web widget's integration ID or its chat link</li>
+            <li><span>Step 3</span>Paste it above. Its name and photo come from gooey.ai</li>
+          </ol>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="add-dialog" class="overlay" hidden>
+    <form id="add-form" class="dialog" role="dialog" aria-labelledby="add-title">
+      <div>
+        <h2 id="add-title" class="serif">Add an agent</h2>
+        <p>Paste the integration ID from your agent's Integrations tab, or its gooey.ai/chat link.</p>
+      </div>
+      <label>
+        Integration ID or chat link
+        <input id="add-input" type="text" autocomplete="off" placeholder="e.g. OJw or gooey.ai/chat/my-agent-OJw/">
+      </label>
+      <div id="add-preview" class="preview" hidden>
+        <span id="add-preview-avatar" class="avatar avatar-lg"></span>
+        <div class="preview-text">
+          <strong id="add-preview-name"></strong>
+          <span id="add-preview-meta"></span>
+        </div>
+        <span id="add-preview-state" class="preview-state"></span>
+      </div>
+      <label>
+        Name in sidebar (optional)
+        <input id="add-name" type="text" autocomplete="off">
+      </label>
+      <label>
+        Workflow link (optional)
+        <input id="add-workflow" type="text" autocomplete="off" placeholder="gooey.ai/copilot/my-agent-abc123/">
+        <span class="hint">The gooey.ai page where you edit this agent. Used by Open workflow.</span>
+      </label>
+      <span id="add-error" class="field-error" hidden></span>
+      <div class="dialog-actions">
+        <button id="add-cancel" class="btn btn-outline btn-lg" type="button">Cancel</button>
+        <button class="btn btn-primary btn-lg" type="submit">Add agent</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="edit-dialog" class="overlay" hidden>
+    <form id="edit-form" class="dialog" role="dialog" aria-labelledby="edit-title">
+      <div>
+        <h2 id="edit-title" class="serif">Edit agent</h2>
+        <p id="edit-sub"></p>
+      </div>
+      <label>
+        Name in sidebar
+        <input id="edit-name" type="text" autocomplete="off">
+      </label>
+      <label>
+        Workflow link
+        <input id="edit-workflow" type="text" autocomplete="off" placeholder="gooey.ai/copilot/my-agent-abc123/">
+        <span class="hint">Open the agent on gooey.ai and copy the address from your browser. Used by Open workflow.</span>
+      </label>
+      <span id="edit-error" class="field-error" hidden></span>
+      <div class="dialog-actions">
+        <button id="edit-cancel" class="btn btn-outline btn-lg" type="button">Cancel</button>
+        <button class="btn btn-primary btn-lg" type="submit">Save</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="toast" class="toast" role="status" hidden></div>
+  <iframe id="probe" class="probe" title="Agent lookup" aria-hidden="true" tabindex="-1"></iframe>
+  <script src="app.js"></script>
+</body>
+</html>
